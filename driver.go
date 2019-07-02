@@ -231,6 +231,10 @@ func (driver *FileDriver) PutFile(destPath string, data io.Reader, appendData bo
 	return bytes, nil
 }
 
+func (driver *FileDriver) Deinit() error {
+	return nil
+}
+
 type FileDriverFactory struct {
 	RootPath string
 	server.Perm
