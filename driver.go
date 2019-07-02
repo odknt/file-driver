@@ -85,7 +85,7 @@ func (driver *FileDriver) Stat(path string) (server.FileInfo, error) {
 	return &FileInfo{f, mode, owner, group}, nil
 }
 
-func (driver *FileDriver) ListDir(path string, callback func(server.FileInfo) error) error {
+func (driver *FileDriver) ListDir(path string, callback func(server.FileInfo) error, all bool) error {
 	basepath := driver.realPath(path)
 	return filepath.Walk(basepath, func(f string, info os.FileInfo, err error) error {
 		if err != nil {
