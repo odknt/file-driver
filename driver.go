@@ -14,6 +14,7 @@ import (
 type FileDriver struct {
 	RootPath string
 	server.Perm
+	cwd string
 }
 
 type FileInfo struct {
@@ -45,6 +46,10 @@ func (driver *FileDriver) Init(conn *server.Conn) {
 	//driver.conn = conn
 }
 
+func (driver *FileDriver) PWD() string {
+	return driver.cwd
+}
+
 func (driver *FileDriver) ChangeDir(path string) error {
 	rPath := driver.realPath(path)
 	f, err := os.Lstat(rPath)
@@ -52,6 +57,7 @@ func (driver *FileDriver) ChangeDir(path string) error {
 		return err
 	}
 	if f.IsDir() {
+		driver.cwd = path
 		return nil
 	}
 	return errors.New("Not a directory")
@@ -241,5 +247,5 @@ type FileDriverFactory struct {
 }
 
 func (factory *FileDriverFactory) NewDriver() (server.Driver, error) {
-	return &FileDriver{factory.RootPath, factory.Perm}, nil
+	return &FileDriver{factory.RootPath, factory.Perm, "/"}, nil
 }
