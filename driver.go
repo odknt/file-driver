@@ -237,6 +237,14 @@ func (driver *FileDriver) PutFile(destPath string, data io.Reader, appendData bo
 	return bytes, nil
 }
 
+func (driver *FileDriver) Login(err error) {
+	return
+}
+
+func (driver *FileDriver) Logout() {
+	return
+}
+
 func (driver *FileDriver) Deinit() error {
 	return nil
 }
